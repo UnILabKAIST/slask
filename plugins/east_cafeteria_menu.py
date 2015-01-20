@@ -70,7 +70,8 @@ def on_message(msg, server):
     text = msg.get("text", "")
     
     match = re.findall(ur'\ub3d9\uce21\?', text, re.UNICODE)
-    if not match:
+    is_food_channel = msg.get("channel") == u'C030P72AH'
+    if not match or not is_food_channel:
         return
 
     time_now = int(datetime.datetime.now().strftime("%H"))
