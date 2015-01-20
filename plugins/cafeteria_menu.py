@@ -73,8 +73,8 @@ def menu(target_menu_time, loc):
 def on_message(msg, server):
     text = msg.get("text", "")
     
-    east_match = re.findall(unicode('동측?'), text, re.UNICODE)
-    moonji_match = re.findall(unicode('문지?'), text, re.UNICODE)
+    east_match = re.findall(unicode('동측/?'), text, re.UNICODE)
+    moonji_match = re.findall(unicode('문지/?'), text, re.UNICODE)
 
     is_food_channel = msg.get("channel") == u'C030P72AH'
     if not (east_match or moonji_match) or not is_food_channel:
