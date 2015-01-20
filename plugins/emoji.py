@@ -27,5 +27,3 @@ def on_message(msg, server):
     except KeyError:
         import sys
         print sys.exc_info()
-    finally:
-        return
