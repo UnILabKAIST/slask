@@ -22,9 +22,15 @@ def youtube(searchterm):
     return video
 
 def on_message(msg, server):
-    text = msg.get("text", "")
-    match = re.findall(r"!youtube (.*)", text)
-    if not match: return
+    try:
+        text = msg.get("text", "")
+        match = re.findall(r"!youtube (.*)", text)
+        if not match: return
 
-    searchterm = match[0]
-    return youtube(searchterm)
+        searchterm = match[0]
+        return youtube(searchterm)
+    except KeyError:
+        import sys
+        print sys.exc_info()
+    finally:
+        return

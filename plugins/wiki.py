@@ -35,9 +35,15 @@ def wiki(searchterm):
     return u"{0}\n{1}".format(p, link)
 
 def on_message(msg, server):
-    text = msg.get("text", "")
-    match = re.findall(r"!wiki (.*)", text)
-    if not match: return
+    try:
+        text = msg.get("text", "")
+        match = re.findall(r"!wiki (.*)", text)
+        if not match: return
 
-    searchterm = match[0]
-    return wiki(searchterm)
+        searchterm = match[0]
+        return wiki(searchterm)
+    except KeyError:
+        import sys
+        print sys.exc_info()
+    finally:
+        return

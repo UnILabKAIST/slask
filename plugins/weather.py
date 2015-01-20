@@ -36,9 +36,15 @@ def weather(searchterm):
     return " ".join(msg)
 
 def on_message(msg, server):
-    text = msg.get("text", "")
-    match = re.findall(r"!weather (.*)", text)
-    if not match: return
+    try:
+        text = msg.get("text", "")
+        match = re.findall(r"!weather (.*)", text)
+        if not match: return
 
-    searchterm = match[0]
-    return weather(searchterm)
+        searchterm = match[0]
+        return weather(searchterm)
+    except KeyError:
+        import sys
+        print sys.exc_info()
+    finally:
+        return

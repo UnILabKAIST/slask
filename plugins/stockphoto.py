@@ -17,9 +17,15 @@ def stock(searchterm):
     return images[0] if images else ""
 
 def on_message(msg, server):
-    text = msg.get("text", "")
-    match = re.findall(r"!stock (.*)", text)
-    if not match: return
+    try:
+        text = msg.get("text", "")
+        match = re.findall(r"!stock (.*)", text)
+        if not match: return
 
-    searchterm = quote(match[0])
-    return stock(searchterm)
+        searchterm = quote(match[0])
+        return stock(searchterm)
+    except KeyError:
+        import sys
+        print sys.exc_info()
+    finally:
+        return

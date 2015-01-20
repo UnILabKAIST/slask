@@ -22,9 +22,15 @@ def gif(searchterm, unsafe=False):
     return gifs[0] if gifs else ""
 
 def on_message(msg, server):
-    text = msg.get("text", "")
-    match = re.findall(r"!gif (.*)", text)
-    if not match: return
+    try:
+        text = msg.get("text", "")
+        match = re.findall(r"!gif (.*)", text)
+        if not match: return
 
-    searchterm = match[0]
-    return gif(searchterm)
+        searchterm = match[0]
+        return gif(searchterm)
+    except KeyError:
+        import sys
+        print sys.exc_info()
+    finally:
+        return

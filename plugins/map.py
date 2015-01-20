@@ -36,8 +36,14 @@ def makemap(query):
     return url
 
 def on_message(msg, server):
-    text = msg.get("text", "")
-    match = re.findall(r"!map (.*)", text)
-    if not match: return
+    try:
+        text = msg.get("text", "")
+        match = re.findall(r"!map (.*)", text)
+        if not match: return
 
-    return makemap(match[0])
+        return makemap(match[0])
+    except KeyError:
+        import sys
+        print sys.exc_info()
+    finally:
+        return

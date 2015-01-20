@@ -16,10 +16,16 @@ def emoji(n=1):
     return "".join(emoji)
 
 def on_message(msg, server):
-    text = msg.get("text", "")
-    match = re.findall(r"(!emoji)\s*(\d+)*", text)
-    if not match: return
+    try:
+        text = msg.get("text", "")
+        match = re.findall(r"(!emoji)\s*(\d+)*", text)
+        if not match: return
 
-    n = 1 if not match[0][1] else int(match[0][1])
+        n = 1 if not match[0][1] else int(match[0][1])
 
-    return emoji(n)
+        return emoji(n)
+    except KeyError:
+        import sys
+        print sys.exc_info()
+    finally:
+        return

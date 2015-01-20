@@ -20,8 +20,14 @@ def calc(eq):
     return answer
 
 def on_message(msg, server):
-    text = msg.get("text", "")
-    match = re.findall(r"!calc (.*)", text)
-    if not match: return
+    try:
+        text = msg.get("text", "")
+        match = re.findall(r"!calc (.*)", text)
+        if not match: return
 
-    return calc(match[0])
+        return calc(match[0])
+    except KeyError:
+        import sys
+        print sys.exc_info()
+    finally:
+        return

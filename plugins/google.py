@@ -16,8 +16,14 @@ def google(q):
     return unquote(re.findall(r"q=(.*?)&", str(answer[0]))[0])
 
 def on_message(msg, server):
-    text = msg.get("text", "")
-    match = re.findall(r"!(?:google|search) (.*)", text)
-    if not match: return
+    try:
+        text = msg.get("text", "")
+        match = re.findall(r"!(?:google|search) (.*)", text)
+        if not match: return
 
-    return google(match[0])
+        return google(match[0])
+    except KeyError:
+        import sys
+        print sys.exc_info()
+    finally:
+        return

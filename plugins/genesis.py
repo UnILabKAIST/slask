@@ -19,8 +19,14 @@ def genesis():
     return images[0] if images else ""
 
 def on_message(msg, server):
-    text = msg.get("text", "")
-    match = re.findall(r"!genesis", text)
-    if not match: return
+    try:
+        text = msg.get("text", "")
+        match = re.findall(r"!genesis", text)
+        if not match: return
 
-    return genesis()
+        return genesis()
+    except KeyError:
+        import sys
+        print sys.exc_info()
+    finally:
+        return

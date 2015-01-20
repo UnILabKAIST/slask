@@ -7,10 +7,16 @@ def flip(lst):
     return ", ".join(lst)
 
 def on_message(msg, server):
-    text = msg.get("text", "")
-    match = re.findall(r"!flip( .*)?", text)
-    if not match: return
+    try:
+        text = msg.get("text", "")
+        match = re.findall(r"!flip( .*)?", text)
+        if not match: return
 
-    lst = ["heads", "tails"] if not match[0] else match[0].strip().split(',')
+        lst = ["heads", "tails"] if not match[0] else match[0].strip().split(',')
 
-    return flip(lst)
+        return flip(lst)
+    except KeyError:
+        import sys
+        print sys.exc_info()
+    finally:
+        return

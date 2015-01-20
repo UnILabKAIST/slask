@@ -22,9 +22,15 @@ def image(searchterm, unsafe=False):
     return images[0] if images else ""
 
 def on_message(msg, server):
-    text = msg.get("text", "")
-    match = re.findall(r"!image (.*)", text)
-    if not match: return
+    try:
+        text = msg.get("text", "")
+        match = re.findall(r"!image (.*)", text)
+        if not match: return
 
-    searchterm = match[0]
-    return image(searchterm)
+        searchterm = match[0]
+        return image(searchterm)
+    except KeyError:
+        import sys
+        print sys.exc_info()
+    finally:
+        return
