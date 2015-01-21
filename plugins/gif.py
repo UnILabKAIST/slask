@@ -6,7 +6,7 @@ import requests
 from random import shuffle
 
 def gif(searchterm, unsafe=False):
-    searchterm = quote(searchterm)
+    searchterm = quote(searchterm.encode('utf8'))
 
     safe = "&safe=" if unsafe else "&safe=active"
     searchurl = "https://www.google.com/search?tbs=itp:animated&tbm=isch&q={0}{1}".format(searchterm, safe)

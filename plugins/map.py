@@ -20,7 +20,7 @@ def makemap(query):
         else:
             querywords.append(word)
 
-    query = quote(" ".join(querywords))
+    query = quote(" ".join(querywords).encode('utf8'))
 
     # Slack seems to ignore the size param
     #

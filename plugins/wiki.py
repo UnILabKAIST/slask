@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 
 def wiki(searchterm):
     """return the top wiki search result for the term"""
-    searchterm = quote(searchterm)
+    searchterm = quote(searchterm.encode('utf8'))
 
     url = "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch={0}&format=json"
     url = url.format(searchterm)

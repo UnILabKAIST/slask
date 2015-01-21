@@ -20,7 +20,7 @@ iconmap = {
 }
 
 def weather(searchterm):
-    searchterm = quote(searchterm)
+    searchterm = quote(searchterm.encode('utf8'))
     url = 'http://api.openweathermap.org/data/2.5/forecast/daily?q={0}&cnt=5&mode=json&units=imperial'
     url = url.format(searchterm)
 

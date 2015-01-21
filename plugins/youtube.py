@@ -6,7 +6,7 @@ from urllib import quote
 import requests
 
 def youtube(searchterm):
-    searchterm = quote(searchterm)
+    searchterm = quote(searchterm.encode('utf8'))
     url = "https://gdata.youtube.com/feeds/api/videos?q={0}&orderBy=relevance&alt=json"
     url = url.format(searchterm)
 

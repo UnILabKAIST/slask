@@ -5,7 +5,7 @@ from urllib import quote, unquote
 import requests
 
 def google(q):
-    query = quote(q)
+    query = quote(q.encode('utf8'))
     url = "https://encrypted.google.com/search?q={0}".format(query)
     soup = BeautifulSoup(requests.get(url).text)
 
