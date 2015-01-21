@@ -9,6 +9,7 @@ import re
 import time
 import random
 import sys
+import codecs
 
 FOOD = 0
 DELIVERY = 1
@@ -39,11 +40,11 @@ def get_page(target_url, get_post = 1):
 
 def random_menu(menu_type):
     if menu_type == FOOD:
-        menu_list = open('data/menu_list.txt', encoding='utf-8').readlines()
+        menu_list = codecs.open('./data/menu_list.txt', 'r', 'utf-8').readlines()
     elif menu_type == DELIVERY:
-        menu_list = open('data/delivery_list.txt', encoding='utf-8').readlines()
+        menu_list = codecs.open('./data/delivery_list.txt', 'r', 'utf-8').readlines()
 
-    return random.choice(menu_list) + u"?"
+    return random.choice(menu_list.strip()) + u"?"
 
 
 def on_message(msg, server):
