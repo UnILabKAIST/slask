@@ -44,7 +44,7 @@ def random_menu(menu_type):
     elif menu_type == DELIVERY:
         menu_list = codecs.open('./data/delivery_list.txt', 'r', 'utf-8').readlines()
 
-    return random.choice(menu_list.strip()) + u"?"
+    return random.choice(menu_list).strip() + u"?"
 
 
 def on_message(msg, server):
