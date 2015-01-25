@@ -50,29 +50,34 @@ def menu(target_menu_time, loc):
 
     target_page = get_page(target_url)
 
-    get_menu_pattern = re.compile(r'<tbody>(?:.*?)<td[^>]*?>(.+?)</td>(?:.*?)<td[^>]*?>(.+?)</td>(?:.*?)<td[^>]*?>(.+?)</td>', re.DOTALL | re.IGNORECASE | re.UNICODE)
+    try:
+        get_menu_pattern = re.compile(r'<tbody>(?:.*?)<td[^>]*?>(.+?)</td>(?:.*?)<td[^>]*?>(.+?)</td>(?:.*?)<td[^>]*?>(.+?)</td>', re.DOTALL | re.IGNORECASE | re.UNICODE)
 
-    target_menu_result = get_menu_pattern.search(target_page)
+        target_menu_result = get_menu_pattern.search(target_page)
 
-    target_menu = target_menu_result.group(target_menu_time)
+        target_menu = target_menu_result.group(target_menu_time)
 
-    target_menu = target_menu.replace('<br />', '')
-    target_menu = target_menu.replace('&lt;', '<')
-    target_menu = target_menu.replace('&gt;', '>')
+        target_menu = target_menu.replace('<br />', '')
+        target_menu = target_menu.replace('&lt;', '<')
+        target_menu = target_menu.replace('&gt;', '>')
 
-    target_menu = target_menu.strip()
+        target_menu = target_menu.strip()
 
-    # Send a message to #general channel
-    target_script = {1:'***오늘 %s 아침 메뉴***' % (loc),
-    2: '***오늘 %s 점심 메뉴***' % (loc),
-    3: '***오늘 %s 저녁 메뉴***' % (loc) }[target_menu_time]
+        # Send a message to #general channel
+        target_script = \
+            {1:'***오늘 %s 아침 메뉴***' % (loc),
+        2: '***오늘 %s 점심 메뉴***' % (loc),
+        3: '***오늘 %s 저녁 메뉴***' % (loc) }[target_menu_time]
 
-    return target_script + "\n" + target_menu
+        return target_script + "\n" + target_menu
+    except KeyError:
+        # No menu in the page
+        return ':crying_cat_face: 메뉴 정보가 없어요. :crying_cat_face:'
 
 
 def on_message(msg, server):
     text = msg.get("text", "")
-    
+
     east_match = re.findall(unicode('동측\?'), text, re.UNICODE)
     moonji_match = re.findall(unicode('문지\?'), text, re.UNICODE)
 
