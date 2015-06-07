@@ -13,13 +13,8 @@ import random
 import sys
 #import HTMLParser
 
+
 def get_page(target_url, get_post = 1):
-    #print datetime.datetime.now().strftime("%Y-%m-%d %H:%M"), "Getting web page\t", target_url
-
-    # check the web page is in HDD or not
-    # wait
-    #time.sleep(3 + random.random())
-
     try:
         if 1 == get_post:
             response_one = requests.get(target_url)
