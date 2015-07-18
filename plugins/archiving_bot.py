@@ -70,7 +70,10 @@ def on_message(msg, server):
     """
     #print msg
     #msg.get("channel")
-    insert_msg_into_db(msg)
+    try:
+        insert_msg_into_db(msg)
+    except:
+        pass
 
     return None
 
