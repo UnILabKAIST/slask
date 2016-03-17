@@ -102,8 +102,11 @@ if __name__=="__main__":
         channels_list = json.loads(resp1)['channels']
 
         for each_ele in channels_list:
-            print("%s\t%s" % (each_ele['id'], each_ele['name']))
+            # Create Table
             #print(create_table_template % each_ele['id'].lower())
+
+            # Insert msg to table
+            print("%s\t%s" % (each_ele['id'], each_ele['name']))
             get_msg_insert_db(each_ele['id'])
 
         #print(channels_list.get('channels'))

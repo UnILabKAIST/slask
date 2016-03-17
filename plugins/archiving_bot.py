@@ -61,6 +61,7 @@ def insert_msg_into_db(each_msg):
 
     db.close()
 
+
 def on_message(msg, server):
     """
     Insert msg into MySQL DB
@@ -70,10 +71,10 @@ def on_message(msg, server):
     """
     #print msg
     #msg.get("channel")
-    try:
-        insert_msg_into_db(msg)
-    except:
-        pass
+    # try:
+    #     insert_msg_into_db(msg)
+    # except:
+    #     pass
 
     return None
 
