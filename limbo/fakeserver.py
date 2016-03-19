@@ -1,5 +1,6 @@
 from slackrtm.server import User, Bot
 
+
 class FakeServer(object):
     def __init__(self, slack=None, config=None, hooks=None, db=None):
         self.slack = slack or FakeSlack()
@@ -18,6 +19,7 @@ class FakeServer(object):
         self.db.commit()
         return rows
 
+
 class FakeSlack(object):
     def __init__(self, server=None, users=None, events=None):
         self.server = server or FakeSlackServer(users=users)
@@ -29,6 +31,7 @@ class FakeSlack(object):
 
     def rtm_read(self):
         return self.events.pop() if self.events else []
+
 
 class FakeSlackServer(object):
     def __init__(self, botname="limbo_test", users=None, bots=None, events=None):
