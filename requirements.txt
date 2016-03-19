@@ -1,6 +1,0 @@
-backports.ssl-match-hostname==3.4.0.2
-beautifulsoup4==4.3.2
-requests==2.2.1
-six==1.8.0
-websocket-client==0.22.0
-importlib>=1.0.3
