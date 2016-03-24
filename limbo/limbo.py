@@ -167,6 +167,9 @@ def init_config():
     getif(config, "logformat", "LIMBO_LOGFORMAT")
     getif(config, "plugins", "LIMBO_PLUGINS")
 
+    if "maxsteps" not in config:
+        config["maxsteps"] = 1000
+
     return config
 
 
@@ -269,7 +272,7 @@ def encode(str_, codec='utf8'):
         return str_.encode(codec)
 
 
-def main(args):
+def main(args, step=1):
     config = init_config()
     if args.test:
         init_log(config)
@@ -280,6 +283,10 @@ def main(args):
         print(run_cmd(cmd, FakeServer(), args.hook, args.pluginpath, config.get("plugins")))
         return
 
+    if step > config["maxsteps"]:
+        logger.warn("Too many step in main function")
+        return
+    
     server = init_server(args, config)
 
     try:
@@ -294,6 +301,8 @@ def main(args):
     except SlackLoginError:
         logger.warn("Login Failed, invalid token <{0}>?".format(config["token"]))
         raise
+    finally:
+        main(args=args, step=step + 1)
 
 
 # run a command. cmd should be a unicode string (str in python3, unicode in python2).
