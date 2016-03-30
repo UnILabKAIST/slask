@@ -5,22 +5,8 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-import requests
-import re
-import datetime
-import time
-import random
-import sys
-#import HTMLParser
-import importlib
-import os
-import re
-import sys
-import time
 import traceback
 import datetime
-# import MySQLdb
-import json
 import sqlite3
 
 
