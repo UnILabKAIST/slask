@@ -19,23 +19,26 @@ import sys
 import time
 import traceback
 import datetime
-import MySQLdb
+# import MySQLdb
 import json
+import sqlite3
 
 
-def db_connect():
-    from config import config
+def db_connect(database_filename="archived_slack_msg.sqlite3"):
+    return sqlite3.connect(database_filename)
 
-    db = MySQLdb.connect(db=config['DBName'], user=config['User_Name'], passwd=config['Password'],
-                         host=config['Hostname'], port = config['portnumber'], charset='utf8')
 
-    db.query("set character_set_connection=utf8;")
-    db.query("set character_set_server=utf8;")
-    db.query("set character_set_client=utf8;")
-    db.query("set character_set_results=utf8;")
-    db.query("set character_set_database=utf8;")
+def create_table(cursor, table_name):
+    sql_template = """
+    CREATE TABLE IF NOT EXISTS '{}' (
+        'ts' timestamp NOT NULL,
+        'user' char(12) NOT NULL,
+        'text' text NOT NULL,
+        PRIMARY KEY ('ts')
+        )
+    """
+    cursor.execute(sql_template.format(table_name))
 
-    return db
 
 def insert_msg_into_db(each_msg):
     """
@@ -45,11 +48,16 @@ def insert_msg_into_db(each_msg):
     channel_id = each_msg.get('channel')
 
     table_name = 'channel_%s' % channel_id.lower()
-    insert_msg_template = 'insert ignore into ' + table_name + ' (ts, user, text) values (%s, %s, %s);'
+    insert_msg_template = 'insert or ignore into ' + table_name + ' (ts, user, text) values (?, ?, ?);'
     timestamp_one = datetime.datetime.fromtimestamp(int(float(each_msg.get('ts')))).strftime('%Y-%m-%d %H:%M:%S')
 
     db = db_connect()
     cursor = db.cursor()
+
+    # check existence of table
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='{}';".format(table_name))
+    if cursor.rowcount < 1:
+        create_table(cursor, table_name)
 
     try:
         cursor.execute(insert_msg_template, (timestamp_one, each_msg.get('user'), each_msg.get('text')))
@@ -64,17 +72,17 @@ def insert_msg_into_db(each_msg):
 
 def on_message(msg, server):
     """
-    Insert msg into MySQL DB
+    Insert msg into DB
     :param msg:
     :param server:
     :return:
     """
-    #print msg
-    #msg.get("channel")
-    # try:
-    #     insert_msg_into_db(msg)
-    # except:
-    #     pass
+    # print(msg)
+    try:
+        insert_msg_into_db(msg)
+    except:
+        print("Error:\tarchiving_bot")
+        print traceback.format_exc()
 
     return None
 

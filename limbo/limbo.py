@@ -286,7 +286,7 @@ def main(args, step=1):
     if step > config["maxsteps"]:
         logger.warn("Too many step in main function")
         return
-    
+
     server = init_server(args, config)
 
     try:
