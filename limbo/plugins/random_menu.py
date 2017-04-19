@@ -5,19 +5,15 @@ import time
 import random
 import sys
 import codecs
+from bs4 import BeautifulSoup
 
 FOOD = 0
 DELIVERY = 1
 
-def get_page(target_url, get_post = 1):
-    #print datetime.datetime.now().strftime("%Y-%m-%d %H:%M"), "Getting web page\t", target_url
 
-    # check the web page is in HDD or not
-    # wait
-    #time.sleep(3 + random.random())
-
+def get_page(target_url, get_post = 0):
     try:
-        if 1 == get_post:
+        if 0 == get_post:
             response_one = requests.get(target_url)
         else:
             response_one = requests.post(target_url)
@@ -32,14 +28,26 @@ def get_page(target_url, get_post = 1):
         time.sleep(60 + random.random())
         return get_page(target_url, get_post)
 
+        
+def get_restaurants_list_from_bablabs(target_url):
+    page = get_page(target_url)
+    soup = BeautifulSoup(page, "lxml")
+    rests = soup.findAll("div", {"class": "card-content store-item"})
+
+    return ["\n".join([x.strip() for x in rest.stripped_strings]) for rest in rests]
+
 
 def random_menu(menu_type):
     if menu_type == FOOD:
-        menu_list = codecs.open('./data/menu_list.txt', 'r', 'utf-8').readlines()
+        # menu_list = codecs.open('./data/menu_list.txt', 'r', 'utf-8').readlines()
+        target_url = "https://bds.bablabs.com/restaurants?campus_id=JEnfpqCUuR&type=local"
     elif menu_type == DELIVERY:
-        menu_list = codecs.open('./data/delivery_list.txt', 'r', 'utf-8').readlines()
+        # menu_list = codecs.open('./data/delivery_list.txt', 'r', 'utf-8').readlines()
+        target_url = "https://bds.bablabs.com/restaurants?campus_id=JEnfpqCUuR&type=delivery"
 
-    return random.choice(menu_list).strip() + u"?"
+    menu_list = get_restaurants_list_from_bablabs(target_url)
+
+    return random.choice(menu_list).strip()
 
 
 def on_message(msg, server):
@@ -58,3 +66,8 @@ def on_message(msg, server):
         return random_menu(FOOD)
     elif dilivery_match:
         return random_menu(DELIVERY)
+
+
+if __name__ == "__main__":
+    print(random_menu(FOOD))
+    print(random_menu(DELIVERY))
