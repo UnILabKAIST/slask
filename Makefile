@@ -42,3 +42,9 @@ publish:
 .PHONY: flake8
 flake8:
 	flake8 limbo test
+
+.PHONY: reinstall
+reinstall:
+	python setup.py install
+	make clean
+
