@@ -1,10 +1,4 @@
-# -*- coding: utf-8 -*-
-__author__ = 'NoSyu'
-
-
 import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
 import requests
 import re
 import datetime
@@ -25,7 +19,7 @@ def get_page(target_url, get_post = 1):
         else:
             return False
     except:
-        print "Unexpected error:", sys.exc_info()[0]
+        print("Unexpected error:", sys.exc_info()[0])
         time.sleep(60 + random.random())
         return get_page(target_url, get_post)
 
@@ -98,15 +92,15 @@ def on_message(msg, server):
 
     text = msg.get("text", "")
 
-    east_match = re.findall(unicode('동측\?'), text, re.UNICODE)
+    east_match = re.findall('동측\?', text, re.UNICODE)
     if east_match:
         loc = 0
     else:
-        west_match = re.findall(unicode('서측\?'), text, re.UNICODE)
+        west_match = re.findall('서측\?', text, re.UNICODE)
         if west_match:
             loc = 1
         else:
-            moonji_match = re.findall(unicode('문지\?'), text, re.UNICODE)
+            moonji_match = re.findall('문지\?', text, re.UNICODE)
             if moonji_match:
                 loc = 2
             else:

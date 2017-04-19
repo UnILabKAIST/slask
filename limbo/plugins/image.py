@@ -22,7 +22,7 @@ def unescape(url):
     # google uses octal escapes for god knows what reason
     return re.sub(r"\\..", octal_to_html_escape, url)
 
-def image(searchterm, unsafe=False):
+def image(searchterm, unsafe=True):
     searchterm = quote(searchterm)
 
     safe = "&safe=" if unsafe else "&safe=active"
@@ -33,13 +33,16 @@ def image(searchterm, unsafe=False):
 
     result = requests.get(searchurl, headers={"User-agent": useragent}).text
 
-    images = list(map(unescape, re.findall(r"var u='(.*?)'", result)))
-    shuffle(images)
+    try:
+        images = list(map(unescape, re.findall(r"var u='(.*?)'", result)))
+        shuffle(images)
 
-    if images:
-        return images[0]
-    else:
-        return ""
+        if images:
+            return images[0]
+        else:
+            return ""
+    except:
+        return "Image search Error!"
 
 def on_message(msg, server):
     text = msg.get("text", "")

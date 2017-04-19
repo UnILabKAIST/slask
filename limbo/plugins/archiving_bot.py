@@ -1,10 +1,4 @@
-# -*- coding: utf-8 -*-
-__author__ = 'NoSyu'
-
 import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
-
 import traceback
 import datetime
 import sqlite3
@@ -68,7 +62,7 @@ def on_message(msg, server):
         insert_msg_into_db(msg)
     except:
         print("Error:\tarchiving_bot")
-        print traceback.format_exc()
+        traceback.print_exc()
 
     return None
 

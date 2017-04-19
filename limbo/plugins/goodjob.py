@@ -1,10 +1,4 @@
-# -*- coding: utf-8 -*-
-__author__ = 'NoSyu'
-
 import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
-
 import random
 
 def on_message(msg, server):

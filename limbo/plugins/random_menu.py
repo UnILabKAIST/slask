@@ -1,9 +1,4 @@
-# -*- coding: utf-8 -*-
-
 import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
-
 import requests
 import re
 import time
@@ -33,7 +28,7 @@ def get_page(target_url, get_post = 1):
         else:
             return False
     except:
-        print "Unexpected error:", sys.exc_info()[0]
+        print("Unexpected error:", sys.exc_info()[0])
         time.sleep(60 + random.random())
         return get_page(target_url, get_post)
 
@@ -50,9 +45,9 @@ def random_menu(menu_type):
 def on_message(msg, server):
     text = msg.get("text", "")
     
-    menu_match1 = re.findall(unicode('점심\?'), text, re.UNICODE)
-    menu_match2 = re.findall(unicode('저녁\?'), text, re.UNICODE)
-    dilivery_match = re.findall(unicode('배달\?'), text, re.UNICODE)
+    menu_match1 = re.findall('점심\?', text)
+    menu_match2 = re.findall('저녁\?', text)
+    dilivery_match = re.findall('배달\?', text)
 
     is_food_channel = msg.get("channel") == u'C030P72AH'
 
